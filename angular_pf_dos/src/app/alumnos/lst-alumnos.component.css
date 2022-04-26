@@ -1,0 +1,12 @@
+.espaciado {
+    flex: 1 1 auto;
+  }
+
+.cont-espaciado {
+    display: flex;
+    align-items: center;
+}
+
+.fondo {
+    background-color: aqua;
+}
