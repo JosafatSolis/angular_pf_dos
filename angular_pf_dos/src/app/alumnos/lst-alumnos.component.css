@@ -10,3 +10,12 @@
 .fondo {
     background-color: aqua;
 }
+
+.padding-headers {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.padding-left {
+    padding-left: 15px;
+}

@@ -15,10 +15,6 @@ export class DialogConfirmarBorradoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClickAceptar() {
-    console.log('Aceptar');
-  }
-
   onClickCancelar() {
     console.log('Cancelar');
     this.dialogRef.close();

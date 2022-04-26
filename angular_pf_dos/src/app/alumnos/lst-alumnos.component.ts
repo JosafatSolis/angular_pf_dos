@@ -10,7 +10,7 @@ import { DialogConfirmarBorradoComponent } from './dialog-confirmar-borrado.comp
 })
 export class LstAlumnosComponent implements OnInit {
 
-  displayedColumns: string[] = ["matricula", "nombre", "apellidos"]
+  displayedColumns: string[] = ["matricula", "nombre", "apellidos", "email", "action"]
   selectedRow: any;
 
   @Input() alumnos: AlumnoItem[] = [
@@ -27,12 +27,24 @@ export class LstAlumnosComponent implements OnInit {
     this.selectedRow = row;
   }
 
-  onEliminarClick(): void {
-    const dialogRef = this.dialog.open(DialogConfirmarBorradoComponent, {
-      width: '300px',
-      data: this.alumnos[0]
-    })
+  onEditarClick(element: AlumnoItem) {
+    console.log('editar:', element);
     
   }
 
+  onEliminarClick(element: AlumnoItem): void {
+    const dialogRef = this.dialog.open(DialogConfirmarBorradoComponent, {
+      width: '400px',
+      data: element
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("resultado:", result);
+    })
+  }
+
+  onDetallesClick(element: AlumnoItem) {
+    console.log('detalles:', element);
+    
+  }
 }

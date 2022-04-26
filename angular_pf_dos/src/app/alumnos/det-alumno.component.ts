@@ -13,4 +13,7 @@ export class DetAlumnoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onEliminarClick() {
+    
+  }
 }

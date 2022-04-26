@@ -3,26 +3,41 @@
         <span>Alumnos Registrados</span>
         <span class="espaciado"></span>
         <button mat-button type="button">Nuevo</button>
-        <button mat-button type="button" (click)="onEliminarClick()">Eliminar</button>
     </div>
     <div>
         <table mat-table [dataSource]="alumnos">
             <!-- Matricula Column -->
             <ng-container matColumnDef="matricula">
-                <th mat-header-cell *matHeaderCellDef>Matricula</th>
+                <th mat-header-cell *matHeaderCellDef class="padding-headers">Matricula</th>
                 <td mat-cell *matCellDef="let element"> {{element.matricula}} </td>
             </ng-container>
 
             <!-- Nombre Column -->
             <ng-container matColumnDef="nombre">
-                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <th mat-header-cell *matHeaderCellDef class="padding-headers">Nombre</th>
                 <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
             </ng-container>
 
             <!-- Apellidos Column -->
-            <ng-container matColumnDef="apellidos">
+            <ng-container matColumnDef="apellidos" class="padding-headers">
                 <th mat-header-cell *matHeaderCellDef>Apellido(s)</th>
                 <td mat-cell *matCellDef="let element"> {{element.apellidos}} </td>
+            </ng-container>
+            
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef class="padding-headers">Email</th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="padding-headers"></th>
+                <td mat-cell *matCellDef="let element" class="padding-left">
+                    <a (click)="onEditarClick(element)">Editar</a> |
+                    <a (click)="onEliminarClick(element)">Eliminar</a> |
+                    <a (click)="onDetallesClick(element)">Detalles</a>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
