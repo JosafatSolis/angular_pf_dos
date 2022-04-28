@@ -6,31 +6,31 @@
         <button mat-button type="button" (click)="onEliminarClick()">Eliminar</button>
         <button mat-button type="button">Guardar</button>
     </div>
-    <form>
+    <form [formGroup]="formAlumno">
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Matricula:</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="matricula">
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Nombre:</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="nombre">
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Apellidos:</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="apellidos">
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Fecha Nacimiento:</mat-label>
-            <input matInput type="date">
+            <input matInput type="date" formControlName="fechaNacimiento">
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Género</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="genero">
         </mat-form-field>
         <br>
     </form>
@@ -39,7 +39,7 @@
         <span class="espaciado"></span>
         <button mat-button type="button">Agregar Curso</button>
     </div>
-    <table mat-table [dataSource]="alumno.cursos">
+    <table mat-table [dataSource]="alumno ? alumno.cursos : []">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef class="padding-headers">Id</th>
