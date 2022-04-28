@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { SharedListsModule } from '../shared-lists/shared-lists.module';
 import { SharedDetailsModule } from '../shared-details/shared-details.module';
 import { AlumnosRoutingModule } from './alumnos-routing.module';
@@ -16,9 +19,11 @@ import { DialogConfirmarBorradoComponent } from './dialog-confirmar-borrado.comp
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     AlumnosRoutingModule,
     SharedListsModule,
-    SharedDetailsModule
+    SharedDetailsModule,
   ],
   exports: [
     LstAlumnosComponent,
