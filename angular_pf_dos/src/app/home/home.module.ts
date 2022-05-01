@@ -23,6 +23,7 @@ import { NavbarComponent } from './navbar.component';
     HomeComponent,
     ToolbarComponent,
     NavbarComponent,
+    HomeRoutingModule,
     HomeMaterialModule
   ]
 })

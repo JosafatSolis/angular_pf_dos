@@ -4,12 +4,12 @@ import { LstAlumnosComponent } from './lst-alumnos.component';
 import { DetAlumnoComponent } from './det-alumno.component';
 
 const routes: Routes = [
-  {
-    path: 'alumnos/:id', component: DetAlumnoComponent
-  },
-  {
-    path: 'alumnos', component: LstAlumnosComponent
-  }
+  // {
+  //   path: 'alumnos/:id', component: DetAlumnoComponent
+  // },
+  // {
+  //   path: 'alumnos', component: LstAlumnosComponent
+  // }
 ];
 
 @NgModule({

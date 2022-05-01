@@ -5,13 +5,11 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthMaterialModule } from './auth-material.module';
 import { LstUsuariosComponent } from './lst-usuarios.component';
 import { DetUsuarioComponent } from './det-usuario.component';
-import { LoginComponent } from './login.component';
 
 @NgModule({
   declarations: [
     LstUsuariosComponent,
-    DetUsuarioComponent,
-    LoginComponent
+    DetUsuarioComponent
   ],
   imports: [
     CommonModule,
@@ -20,8 +18,7 @@ import { LoginComponent } from './login.component';
   ],
   exports: [
     LstUsuariosComponent,
-    DetUsuarioComponent,
-    LoginComponent
+    DetUsuarioComponent
   ]
 })
 export class AuthModule { }

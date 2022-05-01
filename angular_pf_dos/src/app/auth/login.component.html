@@ -1,17 +1,24 @@
 <div class="center">
-    <form>
+    <form [formGroup]="form" (ngSubmit)="onSubmitHandler()">
     <mat-label>Login</mat-label>
     <br>
         <mat-form-field appearance="outline">
             <mat-label>Usuario:</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="user">
+            <span *ngIf="controls.user?.touched && controls.user?.hasError('required')">Dato requerido</span>
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
             <mat-label>Contraseña:</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" formControlName="pwd">
+            <span *ngIf="controls.pwd?.touched && controls.pwd?.hasError('required')">Dato requerido</span>
         </mat-form-field>
         <br>
+        <div *ngIf="invalidCredentials">
+            <span>CREDENCIALES INVALIDAS!!</span>
+            <br>
+            <br>
+        </div>
         <button mat-raised-button color="primary">Enviar</button>
     </form>
 </div>

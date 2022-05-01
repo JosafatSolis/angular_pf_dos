@@ -3,6 +3,7 @@ import { AlumnoItem } from './alumnoitem';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmarBorradoComponent } from './dialog-confirmar-borrado.component';
 import { AlumnosService } from './alumnos.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lst-alumnos',
@@ -16,7 +17,8 @@ export class LstAlumnosComponent implements OnInit {
 
   alumnos!: AlumnoItem[];
 
-  constructor(public dialog: MatDialog, private alumnosService: AlumnosService) {}
+  constructor(public dialog: MatDialog, private alumnosService: AlumnosService,
+    private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.alumnosService.getAlumnos().subscribe((resp) => {
@@ -47,7 +49,6 @@ export class LstAlumnosComponent implements OnInit {
   }
 
   onDetallesClick(element: AlumnoItem) {
-    console.log('detalles:', element);
-    
+    this.router.navigate([String(element.id)], {relativeTo: this.route, queryParams: {readOnly: true}})    
   }
 }

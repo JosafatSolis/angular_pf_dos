@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AlumnoItem } from './alumnoitem';
 import { environment } from 'src/environments/environment';
-import { RouterModule } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

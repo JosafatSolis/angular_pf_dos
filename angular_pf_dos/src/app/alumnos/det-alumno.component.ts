@@ -14,6 +14,7 @@ import { formatDate } from '@angular/common';
 export class DetAlumnoComponent implements OnInit {
 
   alumnoId!: string | null;
+  readOnly: boolean = true; // Inicia deshabilitado
 
   alumno!: AlumnoItem;
     // {
@@ -35,18 +36,27 @@ export class DetAlumnoComponent implements OnInit {
 
   formAlumno: FormGroup = new FormGroup(
     {
-      matricula: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      nombre: new FormControl('', [Validators.required]),
-      apellidos: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      fechaNacimiento: new FormControl('', [Validators.required]),
-      genero: new FormControl('')
+      matricula: new FormControl({value: '', disabled: this.readOnly}, [Validators.required, Validators.pattern('^[0-9]*$')]),
+      nombre: new FormControl({value:'', disabled: this.readOnly}, [Validators.required]),
+      apellidos: new FormControl({value: '', disabled: this.readOnly}, [Validators.required]),
+      email: new FormControl({value: '', disabled: this.readOnly}, [Validators.required, Validators.email]),
+      fechaNacimiento: new FormControl({value: '', disabled: this.readOnly}, [Validators.required]),
+      genero: new FormControl({value: '', disabled: this.readOnly})
     }
   )
 
   displayedColumns: string[] = ['id', 'nombre', 'fechaInicio', 'fechaFin', 'action'];
 
   constructor(private route: ActivatedRoute, private alumnosService: AlumnosService) { }
+
+  controls = {
+    matricula: this.formAlumno.get('matricula') as FormControl,
+    nombre: this.formAlumno.get('nombre') as FormControl,
+    apellidos: this.formAlumno.get('apellidos') as FormControl,
+    email: this.formAlumno.get('email') as FormControl,
+    fechaNacimiento: this.formAlumno.get('fechaNacimiento') as FormControl,
+    genero: this.formAlumno.get('genero') as FormControl
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((map: ParamMap) => {
@@ -57,18 +67,56 @@ export class DetAlumnoComponent implements OnInit {
         this.alumno = {...resp, cursos: []};
         console.log('alumnoId:', this.alumno);
         // Se le asigna un valor a cada campo
-        (this.formAlumno.get('matricula') as FormControl).setValue(this.alumno.matricula);
-        (this.formAlumno.get('nombre') as FormControl).setValue(this.alumno.nombre);
-        (this.formAlumno.get('apellidos') as FormControl).setValue(this.alumno.apellidos);
-        (this.formAlumno.get('email') as FormControl).setValue(this.alumno.email);
-        (this.formAlumno.get('fechaNacimiento') as FormControl).setValue(formatDate(this.alumno.fechaNacimiento, 'yyyy-MM-dd', 'en'));
-        (this.formAlumno.get('genero') as FormControl).setValue(this.alumno.genero);
+        this.controls.matricula.setValue(this.alumno.matricula);
+        this.controls.nombre.setValue(this.alumno.nombre);
+        this.controls.apellidos.setValue(this.alumno.apellidos);
+        this.controls.email.setValue(this.alumno.email);
+        this.controls.fechaNacimiento.setValue(formatDate(this.alumno.fechaNacimiento, 'yyyy-MM-dd', 'en'));
+        this.controls.genero.setValue(this.alumno.genero);
       })
+    })
+
+    this.route.queryParams.subscribe((params) => {
+      this.readOnly = Boolean(params['readOnly']);
+      this.desHabilita(); 
     })
   }
 
+  onEditarClick() {
+    this.readOnly = false;
+    this.desHabilita();
+  }
+
+  onCancelarClick() {
+    this.formAlumno.patchValue({
+      matricula: this.alumno.matricula,
+      nombre: this.alumno.nombre,
+      apellidos: this.alumno.apellidos,
+      email: this.alumno.email,
+      fechaNacimiento: formatDate(this.alumno.fechaNacimiento, 'yyyy-MM-dd', 'en'),
+      genero: this.alumno.genero
+    })
+    //this.formAlumno.reset(this.formAlumno.value);
+    this.readOnly = true;
+    this.desHabilita();
+  }
+
+  // Guardar cambios del Alumno
+  onGuardarClick() {
+
+  }
+
   // Eliminar el registro del Alumno
-  onEliminarClick() {
+  onEliminarClick() {    
+  }
+
+  desHabilita() {
+    this.readOnly ? this.controls.matricula.disable() : this.controls.matricula.enable();
+    this.readOnly ? this.controls.nombre.disable() : this.controls.nombre.enable();
+    this.readOnly ? this.controls.apellidos.disable() : this.controls.apellidos.enable();
+    this.readOnly ? this.controls.email.disable() : this.controls.email.enable();
+    this.readOnly ? this.controls.fechaNacimiento.disable() : this.controls.fechaNacimiento.enable();
+    this.readOnly ? this.controls.genero.disable() : this.controls.genero.enable();
   }
 
   // Desinscribir un curso

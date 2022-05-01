@@ -1,22 +1,22 @@
 <div>
     <mat-sidenav-container autosize>
       <div>
-        <button type="button" mat-button class="nav_button">
+        <button type="button" mat-button class="nav_button" (click)="navigateTo('alumnos')">
           Alumnos
         </button>
       </div>
       <div>
-        <button type="button" mat-button class="nav_button">
-          Clases
-        </button>
-      </div>
-      <div>
-        <button type="button" mat-button class="nav_button">
+        <button type="button" mat-button class="nav_button" (click)="navigateTo('cursos')">
           Cursos
         </button>
       </div>
       <div>
-        <button type="button" mat-button class="nav_button">
+        <button type="button" mat-button class="nav_button" (click)="navigateTo('inscripciones')">
+          Inscripciones
+        </button>
+      </div>
+      <div>
+        <button type="button" mat-button class="nav_button" (click)="navigateTo('usuarios')">
           Usuarios
         </button>
       </div>
