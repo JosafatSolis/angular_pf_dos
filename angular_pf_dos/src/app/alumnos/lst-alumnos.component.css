@@ -19,3 +19,7 @@
 .padding-left {
     padding-left: 15px;
 }
+
+.hand-pointer{
+    cursor: pointer;
+}

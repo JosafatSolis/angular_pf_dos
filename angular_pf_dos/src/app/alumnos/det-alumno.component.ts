@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlumnoItem } from './alumnoitem';
 import { CursoItem } from '../cursos/cursoitem';
 import { AlumnosService } from './alumnos.service';
 import { formatDate } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-det-alumno',
@@ -15,6 +16,7 @@ export class DetAlumnoComponent implements OnInit {
 
   alumnoId!: string | null;
   readOnly: boolean = true; // Inicia deshabilitado
+  // @ViewChild('form') form!: NgForm;
 
   alumno!: AlumnoItem;
     // {
@@ -65,7 +67,6 @@ export class DetAlumnoComponent implements OnInit {
       // Se extrae la información de la BD
       this.alumnosService.getAlumno(Number(this.alumnoId)).subscribe((resp) => {
         this.alumno = {...resp, cursos: []};
-        console.log('alumnoId:', this.alumno);
         // Se le asigna un valor a cada campo
         this.controls.matricula.setValue(this.alumno.matricula);
         this.controls.nombre.setValue(this.alumno.nombre);
@@ -77,9 +78,25 @@ export class DetAlumnoComponent implements OnInit {
     })
 
     this.route.queryParams.subscribe((params) => {
-      this.readOnly = Boolean(params['readOnly']);
-      this.desHabilita(); 
+      // ¡¡ Cuidado con esta conversión, por alguna razón no funciona si se quiere asignar directamente el valor
+      // convertido con "as unknown as boolean" !!
+      this.readOnly = params['readOnly'] == 'true' ? true : false;
+      this.desHabilita();
     })
+  }
+
+  cancelaEdicion(alumno: AlumnoItem) {
+    this.formAlumno.patchValue({
+      matricula: alumno.matricula,
+      nombre: alumno.nombre,
+      apellidos: alumno.apellidos,
+      email: alumno.email,
+      fechaNacimiento: formatDate(alumno.fechaNacimiento, 'yyyy-MM-dd', 'en'),
+      genero: alumno.genero
+    })
+    //this.formAlumno.reset(this.formAlumno.value);
+    this.readOnly = true;
+    this.desHabilita();
   }
 
   onEditarClick() {
@@ -88,22 +105,16 @@ export class DetAlumnoComponent implements OnInit {
   }
 
   onCancelarClick() {
-    this.formAlumno.patchValue({
-      matricula: this.alumno.matricula,
-      nombre: this.alumno.nombre,
-      apellidos: this.alumno.apellidos,
-      email: this.alumno.email,
-      fechaNacimiento: formatDate(this.alumno.fechaNacimiento, 'yyyy-MM-dd', 'en'),
-      genero: this.alumno.genero
-    })
-    //this.formAlumno.reset(this.formAlumno.value);
-    this.readOnly = true;
-    this.desHabilita();
+    this.cancelaEdicion(this.alumno);
   }
 
-  // Guardar cambios del Alumno
-  onGuardarClick() {
-
+  // Clic en botón Guardar cambios del Alumno
+  onNgSubmit() {
+    // Como el id no está en el form, hay que agregarlo:
+    const al = this.formAlumno.value as AlumnoItem;
+    this.alumnosService.updateAlumno({...al, id:this.alumno.id}).subscribe((resp) => {
+      this.cancelaEdicion(resp as AlumnoItem);
+    })
   }
 
   // Eliminar el registro del Alumno

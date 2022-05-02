@@ -4,10 +4,11 @@
         <span class="espaciado"></span>
         <button *ngIf="readOnly" mat-button type="button" (click)="onEditarClick()">Editar</button>
         <button *ngIf="!readOnly" mat-button type="button" (click)="onCancelarClick()">Cancelar</button>
-        <button mat-button type="button" (click)="onEliminarClick()">Eliminar</button>
-        <button mat-button type="button" (click)="onGuardarClick()">Guardar</button>
+        <button *ngIf="!formAlumno.dirty && readOnly" mat-button type="button" (click)="onEliminarClick()">Eliminar</button>
+        <!-- Se le quita el type="button" a la siguiente línea porque no funciona el link con el formulario de esa forma -->
+        <button *ngIf="formAlumno.dirty" mat-button form="formAl" >Guardar</button>
     </div>
-    <form [formGroup]="formAlumno">
+    <form id="formAl" [formGroup]="formAlumno" (ngSubmit)="onNgSubmit()">
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Matricula:</mat-label>

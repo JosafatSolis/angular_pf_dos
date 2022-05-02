@@ -16,6 +16,15 @@ export class AlumnosService {
   }
 
   getAlumno(id: number): Observable<AlumnoItem> {
-    return this.http.get<AlumnoItem>(environment.API_BASE_URL + 'alumnos/' + String(id))
+    return this.http.get<AlumnoItem>(environment.API_BASE_URL + 'alumnos/' + String(id));
+  }
+
+  // Retorna el elemento que se eliminó
+  deleteAlumno(id: number): Observable<AlumnoItem> {
+    return this.http.delete<AlumnoItem>(environment.API_BASE_URL + 'alumnos/' + String(id));
+  }
+
+  updateAlumno(alumno: AlumnoItem): Observable<AlumnoItem> {
+    return this.http.put<AlumnoItem>(environment.API_BASE_URL + 'alumnos/' + String(alumno.id), alumno);
   }
 }

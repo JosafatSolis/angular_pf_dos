@@ -22,10 +22,8 @@ export class LstAlumnosComponent implements OnInit {
 
   ngOnInit(): void {
     this.alumnosService.getAlumnos().subscribe((resp) => {
-      this.alumnos = resp;
-    })
-    console.log(this.alumnos);
-    
+      this.alumnos = resp as AlumnoItem[];
+    })   
   }
 
   changeRowSelected(row: any) {
@@ -33,8 +31,7 @@ export class LstAlumnosComponent implements OnInit {
   }
 
   onEditarClick(element: AlumnoItem) {
-    console.log('editar:', element);
-    
+    this.router.navigate([String(element.id)], {relativeTo: this.route, queryParams: { readOnly: false }})    
   }
 
   onEliminarClick(element: AlumnoItem): void {
@@ -44,11 +41,15 @@ export class LstAlumnosComponent implements OnInit {
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      console.log("resultado:", result);
+      this.alumnosService.deleteAlumno((result as AlumnoItem).id).subscribe((resp) => {
+        this.alumnosService.getAlumnos().subscribe((resp) => {
+          this.alumnos = resp as AlumnoItem[];
+        })
+      })
     })
   }
 
   onDetallesClick(element: AlumnoItem) {
-    this.router.navigate([String(element.id)], {relativeTo: this.route, queryParams: {readOnly: true}})    
+    this.router.navigate([String(element.id)], {relativeTo: this.route, queryParams: { readOnly: true }})    
   }
 }
